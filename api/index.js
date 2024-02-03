@@ -1,16 +1,20 @@
 import express from 'express'
 import { config } from 'dotenv';
 import {connect,disconnect} from 'mongoose'
+import router from './routes/index.js';
 config()
 const app=express();
 
+
+app.use(express.json())
+app.use('/api/v1',router)
 
 async function connectToDatabase(){
     try {
         await connect(process.env.MONGODB_URL)
     } catch (error) {
         console.log(error)
-        throw new Error("can't connect to MongoDB")
+        // throw new Error("can't connect to MongoDB")
         
     }
 }
@@ -19,7 +23,7 @@ async function disconnectToDatabase(){
         await disconnect()
     } catch (error) {
         console.log(error)
-        throw new Error("can't disconnect to MongoDB")
+        // throw new Error("can't disconnect to MongoDB")
         
     }
 }
