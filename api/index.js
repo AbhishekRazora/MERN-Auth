@@ -14,7 +14,7 @@ async function connectToDatabase(){
         await connect(process.env.MONGODB_URL)
     } catch (error) {
         console.log(error)
-        // throw new Error("can't connect to MongoDB")
+        throw new Error("can't connect to MongoDB")
         
     }
 }
@@ -23,10 +23,29 @@ async function disconnectToDatabase(){
         await disconnect()
     } catch (error) {
         console.log(error)
-        // throw new Error("can't disconnect to MongoDB")
+        throw new Error("can't disconnect to MongoDB")
         
     }
 }
+
+
+
+
+
+app.use((err,req,res,next)=>{
+    const statusCode=err.statusCode||500;
+    const message=err.message || "Internal Server Error";
+    return res.status(statusCode).json({
+        success:false,
+        message,
+        statusCode
+    })
+
+})
+
+
+
+
 
 
 
