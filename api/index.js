@@ -2,12 +2,18 @@ import express from 'express'
 import { config } from 'dotenv';
 import {connect,disconnect} from 'mongoose'
 import router from './routes/index.js';
+import cors from "cors"
+import cookieParser from 'cookie-parser';
 config()
 const app=express();
 
-
+app.use(cors({origin:'http://localhost:5173',credentials:true}))
 app.use(express.json())
+app.use(cookieParser(process.env.COOKIE_SECRET))
+
 app.use('/api/v1',router)
+
+
 
 async function connectToDatabase(){
     try {
