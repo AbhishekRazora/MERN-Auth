@@ -38,3 +38,10 @@ export const signinUser=async({email,password})=>{
     // }
 
 }
+
+export const signInWithGoogle=async({username,email,photo})=>{
+    console.log({username,email,photo})
+const res=await axios.post("/auth/google",{username,email,photo})
+const data=await res.data;
+return data;
+}
