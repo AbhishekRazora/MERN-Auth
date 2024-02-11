@@ -47,7 +47,7 @@ export const signUp = async (req, res, next) => {
         })
 
         return res.status(201).json({
-            message: "ok user created", username: user.username, email: user.email
+            message: "ok user created", username: user.username, email: user.email,id:user._id,photo:user.photo
         })
     } catch (error) {
         console.log(error)
@@ -98,7 +98,7 @@ export const signIn = async (req, res, next) => {
         })
 
         return res.status(201).json({
-            message: "ok sign-in successfully", username: user.username, email: user.email
+            message: "ok sign-in successfully", username: user.username, email: user.email,id:user._id,photo:user.photo
         })
     } catch (error) {
         console.log(error)
@@ -171,7 +171,7 @@ export const signWithGoogle = async (req, res, next) => {
 
 
 return res.status(201).json({
-            message: "ok sign-in successfully", username: user.username, email: user.email,photo:user.photo
+            message: "ok sign-in successfully", username: user.username, email: user.email,photo:user.photo,id:user._id
         })
     } catch (error) {
         console.log(error)

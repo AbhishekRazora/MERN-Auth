@@ -1,4 +1,7 @@
 import axios from "axios";
+// import { useSelector } from "react-redux";
+
+
 
 export const signupUser=async({username,email,password})=>{
     // try {
@@ -45,3 +48,15 @@ const res=await axios.post("/auth/google",{username,email,photo})
 const data=await res.data;
 return data;
 }
+
+
+
+export const updateUserProfile=async({username,email,password,photo,id})=>{
+    console.log({username,email,photo,id})
+const res=await axios.post(`/user/update/${id}`,{username,email,password,photo})
+const data=await res.data;
+return data;
+}
+
+
+
