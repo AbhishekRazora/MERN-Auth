@@ -66,4 +66,11 @@ return data;
 }
 
 
+export const signOutUser=async()=>{
+    const res=await axios.get('/auth/sign-out')
+    const data=await res.data;
+    return data;
+}
+
+
 

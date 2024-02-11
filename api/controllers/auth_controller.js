@@ -187,3 +187,37 @@ export const signWithGoogle = async (req, res, next) => {
 
 }
 
+
+
+export const signOut=async(req,res,next)=>{
+    try {
+        const user=await User.findById(res.locals.jwtData.id);
+
+        if(!user){
+            return res.status(401).json({message:"User not registered or token mulfunctioned"})
+        }
+
+        if(user._id.toString() !== res.locals.jwtData.id){
+            return res.status(401).json({message:"Permissions didn't match"})
+        }
+        res.clearCookie(COOKIE_NAME, {
+            path: "/",
+            domain: "localhost",
+            httpOnly: true,
+            signed: true,
+        })
+
+        return res.status(200).json({
+            message:"OK, Logout successfully"
+        })
+
+    } catch (error) {
+        // return res.status(400).json({
+        //     message:"error occur in signout"
+        // })
+        next(error)
+        
+    }
+
+}
+

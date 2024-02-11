@@ -4,12 +4,12 @@ import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/
 import { app } from '../Firebase'
 import { toast } from 'react-hot-toast'
 import { useDispatch } from 'react-redux'
-import { deleteUserFailure, deleteUserStart, deleteUserSuccess, updateUserFailure, updateUserStart, updateUserSuccess } from '../redux/user/userSlice.js'
-import { deleteUser, updateUserProfile } from '../helpers/api-communicator.jsx'
+import { deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutUserFailure, signOutUserStart, signOutUserSuccess, updateUserFailure, updateUserStart, updateUserSuccess } from '../redux/user/userSlice.js'
+import { deleteUser, signOutUser, updateUserProfile } from '../helpers/api-communicator.jsx'
 import { useNavigate } from 'react-router-dom'
 
 export default function Profile() {
-  const navigate=useNavigate()
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const fileRef = useRef(null)
   const [imagePercent, setImagePercent] = useState(0)
@@ -61,13 +61,13 @@ export default function Profile() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-    toast.loading("Updating", { id: "update" })
-    dispatch(updateUserStart())
+      toast.loading("Updating", { id: "update" })
+      dispatch(updateUserStart())
       const updatedData = {
         ...formData,
         id: currentUser.id
       }
-     
+
       const updatedUser = await updateUserProfile(updatedData)
       dispatch(updateUserSuccess(updatedUser))
       setUpdatedSuccess(true)
@@ -81,24 +81,49 @@ export default function Profile() {
   }
 
 
-  const handleDeleteAccount = async(e) => {
+  const handleDeleteAccount = async (e) => {
     e.preventDefault()
     try {
-    dispatch(deleteUserStart())
-      toast.loading("Deleting...",{id:"delete"})
+      dispatch(deleteUserStart())
+      toast.loading("Deleting...", { id: "delete" })
       let id = currentUser.id
       console.log(id)
-      const data=await deleteUser(id)
+      const data = await deleteUser(id)
       console.log(data)
       dispatch(deleteUserSuccess())
-      toast.success("User deleted Successfully",{id:"delete"})
+      toast.success("User deleted Successfully", { id: "delete" })
       navigate("/")
 
 
     } catch (error) {
-console.log(error)
-dispatch(deleteUserFailure(error))
-toast.error("Error in deleting the user")
+      console.log(error)
+      dispatch(deleteUserFailure(error))
+      toast.error("Error in deleting the user", { id: "delete" })
+
+    }
+  }
+
+
+
+  
+  const handleSignOut = async (e) => {
+    e.preventDefault()
+    try {
+      dispatch(signOutUserStart())
+      toast.loading("Signing out....", { id: "signout" })
+      // let id = currentUser.id
+      // console.log(id)
+      const data = await signOutUser()
+      console.log(data)
+      dispatch(signOutUserSuccess())
+      toast.success("User sign-out Successfully", { id: "signout" })
+      navigate("/")
+
+
+    } catch (error) {
+      console.log(error)
+      dispatch(signOutUserFailure(error))
+      toast.error("Error in sign-out the user", { id: "signout" })
 
     }
   }
@@ -157,7 +182,7 @@ toast.error("Error in deleting the user")
         <button disabled={isLoading} className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{isLoading ? "Updating..." : "Update"}</button>
         <div className='flex justify-between '>
           <span onClick={handleDeleteAccount} className='text-red-700 cursor-pointer font-semibold'>Delete Account</span>
-          <span className='text-red-700 cursor-pointer font-semibold'>Sign Out</span>
+          <span onClick={handleSignOut} className='text-red-700 cursor-pointer font-semibold'>Sign Out</span>
         </div>
         <p className='text-red-700 mt-2'>{error && error.message}</p>
         <p className='text-green-700 mt-2'>{updatedSuccess && "User is updated successfully"}</p>
