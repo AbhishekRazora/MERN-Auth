@@ -76,7 +76,7 @@ navigate("/",{replace:true})
 
     <div className='p-3 mt-10   mx-auto max-w-xl'>
       <h1 className='text-center font-bold text-2xl my-7'>Sign In</h1>
-      {error&& <h3 className='text-2xl text-red-600 font-semibold'>{error.response.data.message}</h3>}
+      {error&& <h3 className='text-2xl text-red-600 font-semibold'>{error.message}</h3>}
       <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
         {message&& <h3 className='text-2xl text-red-600 font-semibold'>{message}</h3>}
         {/* <input type="text" placeholder='username' id='username' name='username' value={formData.username} onChange={handleChange} className='bg-slate-200 p-3 rounded-lg focus:outline-none' /> */}

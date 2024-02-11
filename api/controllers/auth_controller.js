@@ -47,7 +47,7 @@ export const signUp = async (req, res, next) => {
         })
 
         return res.status(201).json({
-            message: "ok user created", username: user.username, email: user.email,id:user._id,photo:user.photo
+            message: "ok user created", username: user.username, email: user.email, id: user._id, photo: user.photo
         })
     } catch (error) {
         console.log(error)
@@ -98,7 +98,7 @@ export const signIn = async (req, res, next) => {
         })
 
         return res.status(201).json({
-            message: "ok sign-in successfully", username: user.username, email: user.email,id:user._id,photo:user.photo
+            message: "ok sign-in successfully", username: user.username, email: user.email, id: user._id, photo: user.photo
         })
     } catch (error) {
         console.log(error)
@@ -113,7 +113,7 @@ export const signWithGoogle = async (req, res, next) => {
     try {
         const { username, email, photo } = req.body;
         // const hashedPassword=bcryptjs.hashSync(password,10);
-
+        // console.log({username,email,photo})
         const user = await User.findOne({ email })
         if (user) {
             res.clearCookie(COOKIE_NAME, {
@@ -135,26 +135,30 @@ export const signWithGoogle = async (req, res, next) => {
                 signed: true,
             })
 
-        }else{
+            return res.status(201).json({
+                message: "ok sign-in successfully", username: user.username, email: user.email, photo: user.photo, id: user._id
+            })
+        } else {
 
-            const generatedPassword=Math.random().toString(36).slice(-8)+Math.random().toString(36).slice(-8)
-            const hashedPassword=bcryptjs.hashSync(generatedPassword,10);
+            const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8)
+            const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
 
-            const user = new User({ username, email, password: hashedPassword,photo })
+            const user = new User({ username, email, password: hashedPassword, photo })
+            // console.log(user)
             await user.save()
-    
-    
+
+
             res.clearCookie(COOKIE_NAME, {
                 path: "/",
                 domain: "localhost",
                 httpOnly: true,
                 signed: true,
             })
-    
+
             const token = createToken(user._id.toString(), user.email, "7d");
             const expires = new Date()
             expires.setDate(expires.getDate() + 7);
-    
+
             res.cookie(COOKIE_NAME, token, {
                 path: '/',
                 domain: "localhost",
@@ -162,19 +166,19 @@ export const signWithGoogle = async (req, res, next) => {
                 httpOnly: true,
                 signed: true,
             })
-    
-          
 
 
+
+
+            // console.log(user.username)
+            return res.status(201).json({
+                message: "ok sign-in successfully", username: user.username, email: user.email, photo: user.photo, id: user._id
+            })
 
         }
 
-
-return res.status(201).json({
-            message: "ok sign-in successfully", username: user.username, email: user.email,photo:user.photo,id:user._id
-        })
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         // return res.status(500).json({
         //     message:"Error comes in signup",cause:error.message
         // })

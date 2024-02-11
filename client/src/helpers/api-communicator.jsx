@@ -43,7 +43,7 @@ export const signinUser=async({email,password})=>{
 }
 
 export const signInWithGoogle=async({username,email,photo})=>{
-    console.log({username,email,photo})
+    // console.log({username,email,photo})
 const res=await axios.post("/auth/google",{username,email,photo})
 const data=await res.data;
 return data;
@@ -54,6 +54,13 @@ return data;
 export const updateUserProfile=async({username,email,password,photo,id})=>{
     console.log({username,email,photo,id})
 const res=await axios.post(`/user/update/${id}`,{username,email,password,photo})
+const data=await res.data;
+return data;
+}
+
+export const deleteUser=async(id)=>{
+    // console.log({username,email,photo,id})
+const res=await axios.delete(`/user/delete/${id}`)
 const data=await res.data;
 return data;
 }

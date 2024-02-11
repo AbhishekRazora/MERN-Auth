@@ -14,9 +14,9 @@ e.preventDefault()
             const provider = new GoogleAuthProvider();
             const auth=getAuth(app)
             const result=await signInWithPopup(auth,provider)
-            console.log(result.user.displayName)
-            console.log(result.user.email)
-            console.log(result.user.photoURL)
+            // console.log(result.user.displayName)
+            // console.log(result.user.email)
+            // console.log(result.user.photoURL)
             // const value=JSON.stringify({
             //     username:result.user.displayName,
             //     email:result.user.email,

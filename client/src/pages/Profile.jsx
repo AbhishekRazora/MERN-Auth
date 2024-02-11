@@ -2,19 +2,21 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
 import { app } from '../Firebase'
-import {toast} from 'react-hot-toast'
+import { toast } from 'react-hot-toast'
 import { useDispatch } from 'react-redux'
-import { updateUserFailure, updateUserStart, updateUserSuccess } from '../redux/user/userSlice.js'
-import { updateUserProfile } from '../helpers/api-communicator.jsx'
+import { deleteUserFailure, deleteUserStart, deleteUserSuccess, updateUserFailure, updateUserStart, updateUserSuccess } from '../redux/user/userSlice.js'
+import { deleteUser, updateUserProfile } from '../helpers/api-communicator.jsx'
+import { useNavigate } from 'react-router-dom'
 
 export default function Profile() {
+  const navigate=useNavigate()
   const dispatch = useDispatch()
   const fileRef = useRef(null)
   const [imagePercent, setImagePercent] = useState(0)
   const [image, setImage] = useState(undefined)
   const [imageError, setImageError] = useState(false)
   const [formData, setFormData] = useState({})
-  const [updatedSuccess,setUpdatedSuccess]=useState(false)
+  const [updatedSuccess, setUpdatedSuccess] = useState(false)
   // console.log(image)
   const { currentUser, isLoading, error } = useSelector(state => state.user)
 
@@ -58,25 +60,49 @@ export default function Profile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    toast.loading("Updating",{id:"update"})
-    dispatch(updateUserStart())
     try {
+    toast.loading("Updating", { id: "update" })
+    dispatch(updateUserStart())
       const updatedData = {
         ...formData,
         id: currentUser.id
       }
-      let id=currentUser.id
+     
       const updatedUser = await updateUserProfile(updatedData)
       dispatch(updateUserSuccess(updatedUser))
       setUpdatedSuccess(true)
-      toast.success("User Update Successfully",{id:"update"})
+      toast.success("User Update Successfully", { id: "update" })
     } catch (error) {
       console.log(error)
       dispatch(updateUserFailure(error))
-      toast.error("Error in updating the user",{id:"update"})
+      toast.error("Error in updating the user", { id: "update" })
 
     }
   }
+
+
+  const handleDeleteAccount = async(e) => {
+    e.preventDefault()
+    try {
+    dispatch(deleteUserStart())
+      toast.loading("Deleting...",{id:"delete"})
+      let id = currentUser.id
+      console.log(id)
+      const data=await deleteUser(id)
+      console.log(data)
+      dispatch(deleteUserSuccess())
+      toast.success("User deleted Successfully",{id:"delete"})
+      navigate("/")
+
+
+    } catch (error) {
+console.log(error)
+dispatch(deleteUserFailure(error))
+toast.error("Error in deleting the user")
+
+    }
+  }
+
 
   return (
     <div className='p-3 mt-2 mx-auto max-w-xl '>
@@ -130,11 +156,11 @@ export default function Profile() {
 
         <button disabled={isLoading} className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{isLoading ? "Updating..." : "Update"}</button>
         <div className='flex justify-between '>
-          <span className='text-red-700 cursor-pointer font-semibold'>Delete Account</span>
+          <span onClick={handleDeleteAccount} className='text-red-700 cursor-pointer font-semibold'>Delete Account</span>
           <span className='text-red-700 cursor-pointer font-semibold'>Sign Out</span>
         </div>
-        <p className='text-red-700 mt-2'>{error&&error.message}</p>
-        <p className='text-green-700 mt-2'>{updatedSuccess&& "User is updated successfully"}</p>
+        <p className='text-red-700 mt-2'>{error && error.message}</p>
+        <p className='text-green-700 mt-2'>{updatedSuccess && "User is updated successfully"}</p>
 
       </form>
     </div>
