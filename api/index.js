@@ -20,16 +20,16 @@ app.get('*',(req,res)=>{
 })
 
 // == for local enviroment (Local host) == //
-// app.use(cors({origin:'http://localhost:5173',credentials:true}))
+app.use(cors({origin:'http://localhost:5173',credentials:true}))
 
 
 
-// app.use(cors({origin:'https://mern-auth-q7id.onrender.com/',credentials:true}))
+app.use(cors({origin:'https://mern-auth-q7id.onrender.com/',credentials:true}))
 
 app.use((req, res, next) => {
     res.setHeader(
       "Access-Control-Allow-Origin",
-      "https://mern-auth-q7id.onrender.com/"
+      "https://mern-auth-q7id.onrender.com"
     );
     res.setHeader(
       "Access-Control-Allow-Methods",
@@ -46,6 +46,23 @@ app.use((req, res, next) => {
   
     next();
   });
+
+  app.options("*", (req, res) => {
+    console.log("preflight");
+    if (
+      req.headers.origin === "https://mern-auth-q7id.onrender.com" &&
+      allowMethods.includes(req.headers["access-control-request-method"]) &&
+      allowHeaders.includes(req.headers["access-control-request-headers"])
+    ) {
+      console.log("pass");
+      return res.status(204).send();
+    } else {
+      console.log("fail");
+    }
+}
+  )
+
+  
 app.use(express.json())
 app.use(cookieParser(process.env.COOKIE_SECRET))
 
