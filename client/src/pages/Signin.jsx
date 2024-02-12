@@ -83,8 +83,8 @@ export default function Signin() {
       {error && <h3 className='text-2xl text-red-600 font-semibold'>{error.message}</h3>}
       <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
         {message && <h3 className='text-2xl text-red-600 font-semibold'>{message}</h3>}
-        <input type="email" placeholder='email' id='username' name='email' value={formData.email} onChange={handleChange} className='bg-slate-200 p-3 rounded-lg focus:outline-none' />
-        <input type="password" placeholder='password' id='username' name='password' value={formData.password} onChange={handleChange} className='bg-slate-200 p-3 rounded-lg focus:outline-none' />
+        <input type="email" placeholder='email' id='email' name='email' value={formData.email} onChange={handleChange} className='bg-slate-200 p-3 rounded-lg focus:outline-none' />
+        <input type="password" placeholder='password' id='password' name='password' value={formData.password} onChange={handleChange} className='bg-slate-200 p-3 rounded-lg focus:outline-none' />
         <button disabled={isLoading ? true : false} className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-75'>{isLoading ? "Loading..." : "Sign in"}</button>
 
         <GoogleOauth />

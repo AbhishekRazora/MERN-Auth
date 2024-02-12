@@ -73,8 +73,8 @@ const navigate=useNavigate()
       {error&& <h3 className='text-2xl text-red-600 font-semibold'>{error.response.data.message}</h3>}
       <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
         <input type="text" placeholder='username' id='username' name='username' value={formData.username} onChange={handleChange} className='bg-slate-200 p-3 rounded-lg focus:outline-none' />
-        <input type="email" placeholder='email' id='username' name='email' value={formData.email} onChange={handleChange} className='bg-slate-200 p-3 rounded-lg focus:outline-none' />
-        <input type="password" placeholder='password' id='username' name='password' value={formData.password} onChange={handleChange} className='bg-slate-200 p-3 rounded-lg focus:outline-none' />
+        <input type="email" placeholder='email' id='email' name='email' value={formData.email} onChange={handleChange} className='bg-slate-200 p-3 rounded-lg focus:outline-none' />
+        <input type="password" placeholder='password' id='password' name='password' value={formData.password} onChange={handleChange} className='bg-slate-200 p-3 rounded-lg focus:outline-none' />
         <button disabled={isLoading?true:false} className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-75'>{isLoading?"Loading...":"Sign up"}</button>
       
         <GoogleOauth/>
