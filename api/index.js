@@ -19,8 +19,12 @@ app.get('*',(req,res)=>{
     res.sendFile(path.join(__dirname,'client','dist','index.html'))
 })
 
-
+// == for local enviroment (Local host) == //
 app.use(cors({origin:'http://localhost:5173',credentials:true}))
+
+
+
+app.use(cors({origin:'https://mern-auth-q7id.onrender.com/',credentials:true}))
 app.use(express.json())
 app.use(cookieParser(process.env.COOKIE_SECRET))
 
