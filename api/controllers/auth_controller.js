@@ -1,8 +1,14 @@
 import User from "../models/user.model.js";
-// import { hashSync } from "bcryptjs";
+
 import bcryptjs from "bcryptjs"
 import { COOKIE_NAME } from "../utils/constant.js";
 import { createToken } from "../utils/token-manager.js";
+
+
+
+
+/*****======Sign-up =====**** */
+
 export const signUp = async (req, res, next) => {
     try {
         const { username, email, password } = req.body;
@@ -10,11 +16,7 @@ export const signUp = async (req, res, next) => {
 
         const existingUser = await User.findOne({ email })
 
-        // if(existingUser){
-        //     return(
-        //         res.status(401).send('user already registered')
-        //     )
-        // }
+       
         if (existingUser) {
             return (
                 res.status(401).json({
@@ -51,17 +53,18 @@ export const signUp = async (req, res, next) => {
         })
     } catch (error) {
         console.log(error)
-        // return res.status(500).json({
-        //     message:"Error comes in signup",cause:error.message
-        // })
+       
         next(error)
     }
 
 }
+
+/*****======Sign-In =====**** */
+
 export const signIn = async (req, res, next) => {
     try {
         const { email, password } = req.body;
-        // const hashedPassword=bcryptjs.hashSync(password,10);
+        
 
         const user = await User.findOne({ email })
         if (!user) {
@@ -102,18 +105,20 @@ export const signIn = async (req, res, next) => {
         })
     } catch (error) {
         console.log(error)
-        // return res.status(500).json({
-        //     message:"Error comes in signup",cause:error.message
-        // })
+       
         next(error)
     }
 
 }
+
+
+
+/*****======Sign-in with google =====**** */
+
 export const signWithGoogle = async (req, res, next) => {
     try {
         const { username, email, photo } = req.body;
-        // const hashedPassword=bcryptjs.hashSync(password,10);
-        // console.log({username,email,photo})
+        
         const user = await User.findOne({ email })
         if (user) {
             res.clearCookie(COOKIE_NAME, {
@@ -144,7 +149,7 @@ export const signWithGoogle = async (req, res, next) => {
             const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
 
             const user = new User({ username, email, password: hashedPassword, photo })
-            // console.log(user)
+           
             await user.save()
 
 
@@ -170,7 +175,7 @@ export const signWithGoogle = async (req, res, next) => {
 
 
 
-            // console.log(user.username)
+           
             return res.status(201).json({
                 message: "ok sign-in successfully", username: user.username, email: user.email, photo: user.photo, id: user._id
             })
@@ -178,16 +183,15 @@ export const signWithGoogle = async (req, res, next) => {
         }
 
     } catch (error) {
-        // console.log(error)
-        // return res.status(500).json({
-        //     message:"Error comes in signup",cause:error.message
-        // })
+       
         next(error)
     }
 
 }
 
 
+
+/*****======Sign-out =====**** */
 
 export const signOut=async(req,res,next)=>{
     try {

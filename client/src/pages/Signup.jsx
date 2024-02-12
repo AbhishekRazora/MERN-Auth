@@ -3,7 +3,7 @@ import { Link ,useNavigate} from 'react-router-dom'
 import { signupUser } from '../helpers/api-communicator'
 import {toast} from "react-hot-toast"
 import GoogleOauth from '../components/GoogleOauth.jsx'
-import GithubOauth from '../components/GithubOauth.jsx'
+
 
 
 export default function Signup() {
@@ -15,6 +15,10 @@ const navigate=useNavigate()
   })
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
+
+
+
+/*****====== Function for handle the submit =====**** */
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -50,6 +54,9 @@ const navigate=useNavigate()
     }
   }
 
+
+/*****====== Handle change function =====**** */
+
   const handleChange = (e) => {
     e.preventDefault()
     const { name, value } = e.target
@@ -69,12 +76,10 @@ const navigate=useNavigate()
         <input type="email" placeholder='email' id='username' name='email' value={formData.email} onChange={handleChange} className='bg-slate-200 p-3 rounded-lg focus:outline-none' />
         <input type="password" placeholder='password' id='username' name='password' value={formData.password} onChange={handleChange} className='bg-slate-200 p-3 rounded-lg focus:outline-none' />
         <button disabled={isLoading?true:false} className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-75'>{isLoading?"Loading...":"Sign up"}</button>
-        {/* <button className='bg-red-600 text-white p-3 rounded-lg uppercase hover:opacity-90 disabled:opacity-75'>Sign up with google</button>
-        <button className='bg-blue-600 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-75'>Sign up with facebook</button>
-        <button className='bg-black text-white p-3 rounded-lg uppercase hover:opacity-90 disabled:opacity-75'>Sign up with github</button> */}
+      
         <GoogleOauth/>
         
-        <GithubOauth/>
+     
       </form>
       <div className='mt-5'>
         <p className='font-semibold'>Have an account?

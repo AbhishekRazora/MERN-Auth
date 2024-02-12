@@ -17,7 +17,7 @@ export default function Profile() {
   const [imageError, setImageError] = useState(false)
   const [formData, setFormData] = useState({})
   const [updatedSuccess, setUpdatedSuccess] = useState(false)
-  // console.log(image)
+ 
   const { currentUser, isLoading, error } = useSelector(state => state.user)
 
 
@@ -29,7 +29,7 @@ export default function Profile() {
 
 
   const handleFileUpload = async (image) => {
-    // console.log(image)
+   
 
     const storage = getStorage(app)
     const fileName = new Date().getTime() + image.name;
@@ -105,14 +105,13 @@ export default function Profile() {
 
 
 
-  
+
   const handleSignOut = async (e) => {
     e.preventDefault()
     try {
       dispatch(signOutUserStart())
       toast.loading("Signing out....", { id: "signout" })
-      // let id = currentUser.id
-      // console.log(id)
+     
       const data = await signOutUser()
       console.log(data)
       dispatch(signOutUserSuccess())

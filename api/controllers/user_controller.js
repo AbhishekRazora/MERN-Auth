@@ -1,5 +1,11 @@
 import User from "../models/user.model.js"
 import bcryptjs from 'bcryptjs'
+
+
+
+
+/*****====== Update the user data =====**** */
+
 export const updateUser=async(req,res,next)=>{
 console.log(res.locals)
 console.log(res.locals.jwtData)
@@ -7,13 +13,7 @@ console.log(res.locals.jwtData)
         return res.status(401).json({message:"You can update only your account!"})
     }
     try {
-        // const user=await User.findById(res.locals.jwtData.id)
-        // console.log(user)
-        // console.log(res.locals.jwtData)
-        // console.log(res.locals)
-        // return res.status(200).json({
-        //     message:"OK",user
-        // })
+    
 if(req.body.password){
     req.body.password= bcryptjs.hashSync(req.body.password,10)
 }
@@ -40,6 +40,9 @@ if(req.body.password){
     }
 }
 
+
+
+/*****====== Deleting the user Account =====**** */
 
 export const deleteUser=async(req,res,next)=>{
     if(res.locals.jwtData.id !== req.params.id){
