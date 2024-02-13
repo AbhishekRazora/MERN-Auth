@@ -9,8 +9,8 @@ import {Provider} from "react-redux"
 import { PersistGate } from 'redux-persist/integration/react'
 
 // axios.defaults.baseURL='http://localhost:8080/api/v1';
-axios.defaults.baseURL='http://localhost:8080/';
-axios.defaults.withCredentials=true;
+// axios.defaults.baseURL='http://localhost:8080/';
+// axios.defaults.withCredentials=true;
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
 <PersistGate loading={null} persistor={persistor}>

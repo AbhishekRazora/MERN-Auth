@@ -89,7 +89,7 @@ export default function Profile() {
       let id = currentUser.id
       console.log(id)
       const data = await deleteUser(id)
-      console.log(data)
+      // console.log(data)
       dispatch(deleteUserSuccess())
       toast.success("User deleted Successfully", { id: "delete" })
       navigate("/")

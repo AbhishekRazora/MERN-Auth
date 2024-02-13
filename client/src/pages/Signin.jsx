@@ -43,7 +43,7 @@ export default function Signin() {
 
 
       }
-      console.log(user)
+      // console.log(user)
       navigate("/", { replace: true })
     } catch (error) {
       console.log(error)
