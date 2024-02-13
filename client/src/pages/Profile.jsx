@@ -112,8 +112,8 @@ export default function Profile() {
       dispatch(signOutUserStart())
       toast.loading("Signing out....", { id: "signout" })
      
-      const data = await signOutUser()
-      console.log(data)
+       await signOutUser()
+      // console.log(data)
       dispatch(signOutUserSuccess())
       toast.success("User sign-out Successfully", { id: "signout" })
       navigate("/")
