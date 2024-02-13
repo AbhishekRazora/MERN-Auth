@@ -20,11 +20,11 @@ app.get('*',(req,res)=>{
 })
 
 // == for local enviroment (Local host) == //
-app.use(cors({origin:'http://localhost:5173',credentials:true}))
+// app.use(cors({origin:'http://localhost:5173',credentials:true}))
 
 // app.use(cors({credentials:true,origin:'http://localhost:5173'}))
 
-// app.use(cors({origin:'https://mern-auth-q7id.onrender.com/',credentials:true}))
+app.use(cors({origin:'https://mern-auth-q7id.onrender.com/',credentials:true}))
 
 // app.use((req, res, next) => {
 //     res.setHeader(
