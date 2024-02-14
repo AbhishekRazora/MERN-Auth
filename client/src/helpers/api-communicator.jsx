@@ -98,7 +98,7 @@ export const updateUserProfile=async({username,email,password,photo,id})=>{
         headers:{
             'Content-Type':'application/json',
         },
-        body:JSON.stringify({username,email,photo,id})
+        body:JSON.stringify({username,email,password,photo})
     })
     const data=await res.json()
     return data;
@@ -132,11 +132,11 @@ export const deleteUser=async(id)=>{
 
 
 export const signOutUser=async ()=>{
-    try {
+    
         await fetch('/api/v1/auth/sign-out')
-    } catch (error) {
-        console.log(error)
-    }
+    //    const data=await res.json();
+    //    return data;
+    
 }
 
 

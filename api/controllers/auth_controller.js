@@ -20,6 +20,7 @@ export const signUp = async (req, res, next) => {
         if (existingUser) {
             return (
                 res.status(401).json({
+                    success:false,
                     message: 'user already registered'
                 })
 
@@ -49,7 +50,7 @@ export const signUp = async (req, res, next) => {
         })
 
         return res.status(201).json({
-            message: "ok user created", username: user.username, email: user.email, id: user._id, photo: user.photo
+           success:true, message: "ok user created", username: user.username, email: user.email, id: user._id, photo: user.photo
         })
     } catch (error) {
         console.log(error)
@@ -68,13 +69,13 @@ export const signIn = async (req, res, next) => {
 
         const user = await User.findOne({ email })
         if (!user) {
-            return res.status(400).json({ message: "User not registered" })
+            return res.status(400).json({success:false, message: "User not registered" })
         }
 
         const isPasswordCorrect = bcryptjs.compareSync(password, user.password)
 
         if (!isPasswordCorrect) {
-            return res.status(403).json({ message: "Incorrect credentials" })
+            return res.status(403).json({success:false, message: "Incorrect credentials" })
 
         }
 
@@ -101,7 +102,7 @@ export const signIn = async (req, res, next) => {
         })
 
         return res.status(201).json({
-            message: "ok sign-in successfully", username: user.username, email: user.email, id: user._id, photo: user.photo
+           success:true, message: "ok sign-in successfully", username: user.username, email: user.email, id: user._id, photo: user.photo
         })
     } catch (error) {
         console.log(error)
@@ -141,7 +142,7 @@ export const signWithGoogle = async (req, res, next) => {
             })
 
             return res.status(201).json({
-                message: "ok sign-in successfully", username: user.username, email: user.email, photo: user.photo, id: user._id
+               success:true, message: "ok sign-in successfully", username: user.username, email: user.email, photo: user.photo, id: user._id
             })
         } else {
 
@@ -177,7 +178,7 @@ export const signWithGoogle = async (req, res, next) => {
 
            
             return res.status(201).json({
-                message: "ok sign-in successfully", username: user.username, email: user.email, photo: user.photo, id: user._id
+              success:true,  message: "ok sign-in successfully", username: user.username, email: user.email, photo: user.photo, id: user._id
             })
 
         }
@@ -198,11 +199,11 @@ export const signOut=async(req,res,next)=>{
         const user=await User.findById(res.locals.jwtData.id);
 
         if(!user){
-            return res.status(401).json({message:"User not registered or token mulfunctioned"})
+            return res.status(401).json({success:false,message:"User not registered or token mulfunctioned"})
         }
 
         if(user._id.toString() !== res.locals.jwtData.id){
-            return res.status(401).json({message:"Permissions didn't match"})
+            return res.status(401).json({success:false,message:"Permissions didn't match"})
         }
         res.clearCookie(COOKIE_NAME, {
             path: "/",
@@ -212,6 +213,7 @@ export const signOut=async(req,res,next)=>{
         })
 
         return res.status(200).json({
+            success:true,
             message:"OK, Logout successfully"
         })
 

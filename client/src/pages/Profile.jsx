@@ -62,16 +62,25 @@ export default function Profile() {
     e.preventDefault()
     try {
       toast.loading("Updating", { id: "update" })
-      dispatch(updateUserStart())
+      // dispatch(updateUserStart())
       const updatedData = {
         ...formData,
         id: currentUser.id
       }
 
       const updatedUser = await updateUserProfile(updatedData)
-      dispatch(updateUserSuccess(updatedUser))
-      setUpdatedSuccess(true)
-      toast.success("User Update Successfully", { id: "update" })
+
+      if(updatedUser.success===true){
+        dispatch(updateUserSuccess(updatedUser))
+        setUpdatedSuccess(true)
+        toast.success("User Update Successfully", { id: "update" })
+      }
+
+      if(updatedUser.success===false){
+        dispatch(updateUserFailure(updatedUser.message))
+        toast.error(updatedUser.message)
+      }
+
     } catch (error) {
       console.log(error)
       dispatch(updateUserFailure(error))
@@ -89,10 +98,17 @@ export default function Profile() {
       let id = currentUser.id
       console.log(id)
       const data = await deleteUser(id)
+      if(data.success===true){
+
+        dispatch(deleteUserSuccess())
+        toast.success("User deleted Successfully", { id: "delete" })
+      }
       // console.log(data)
-      dispatch(deleteUserSuccess())
-      toast.success("User deleted Successfully", { id: "delete" })
-      navigate("/")
+      // navigate("/")
+      if(data.success===false){
+        dispatch(deleteUserFailure(data.message))
+        toast.error(data.message)
+      }
 
 
     } catch (error) {
@@ -114,14 +130,23 @@ export default function Profile() {
      
        await signOutUser()
       // console.log(data)
-      dispatch(signOutUserSuccess())
-      toast.success("User sign-out Successfully", { id: "signout" })
-      navigate("/")
+      // if(data.success===true){
+
+        dispatch(signOutUserSuccess())
+        toast.success("User sign-out Successfully", { id: "signout" })
+        navigate("/")
+      // }
+
+      // if(data.success===false){
+      //   dispatch(signOutUserFailure(data.message))
+      //   toast.error(data.message)
+      // }
+      // console.log(data)
 
 
     } catch (error) {
       console.log(error)
-      dispatch(signOutUserFailure(error))
+      // dispatch(signOutUserFailure(error))
       toast.error("Error in sign-out the user", { id: "signout" })
 
     }
@@ -135,7 +160,7 @@ export default function Profile() {
 
       <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
 
-        <input type="file" name="" id="" ref={fileRef} hidden accept='image/*' onChange={(e) => setImage(e.target.files[0])} />
+        <input type="file" name="photo" id="" ref={fileRef} hidden accept='image/*' onChange={(e) => setImage(e.target.files[0])} />
         <img src={formData.photo || currentUser.photo} alt="profile" onClick={() => fileRef.current.click()} className='h-24 w-24 self-center cursor-pointer rounded-full object-cover mt-2' />
 
         <p className='text-lg self-center'>
@@ -167,7 +192,7 @@ export default function Profile() {
           <label htmlFor="email">Email
 
           </label>
-          <input type="text" name='email' id='email' defaultValue={currentUser.email} className='bg-slate-200 rounded-lg p-3' onChange={handleChange} />
+          <input type="text" name='email' id='email' defaultValue={currentUser.email} className='bg-slate-200 rounded-lg p-3 cursor-not-allowed' onChange={handleChange} disabled/>
         </div>
 
         <div className='flex flex-col'>
@@ -183,7 +208,7 @@ export default function Profile() {
           <span onClick={handleDeleteAccount} className='text-red-700 cursor-pointer font-semibold'>Delete Account</span>
           <span onClick={handleSignOut} className='text-red-700 cursor-pointer font-semibold'>Sign Out</span>
         </div>
-        <p className='text-red-700 mt-2'>{error && error.message}</p>
+        {/* <p className='text-red-700 mt-2'>{error && error}</p> */}
         <p className='text-green-700 mt-2'>{updatedSuccess && "User is updated successfully"}</p>
 
       </form>

@@ -28,12 +28,20 @@ const navigate=useNavigate()
     setError(null)
       
        const user=await signupUser( formData )
-       if(user){
+       console.log(user)
+       if(user.success===true){
         
           toast.success("Signed up Successfully",{id:"signup"})
         
+          navigate("/sign-in")
        }
-       navigate("/sign-in")
+       if(user.success===false){
+        toast.error(user.message)
+       }
+       if(user.errors){
+        // console.log(user.errors[0].msg)
+        toast.error(user.errors[0].msg)
+       }
     //  console.log(user)
 
     } catch (error) {
@@ -70,7 +78,7 @@ const navigate=useNavigate()
 
     <div className='p-3 mt-10   mx-auto max-w-xl'>
       <h1 className='text-center font-bold text-2xl my-7'>Signup</h1>
-      {error&& <h3 className='text-2xl text-red-600 font-semibold'>{error.response.data.message}</h3>}
+      {/* {error&& <h3 className='text-2xl text-red-600 font-semibold'>{error}</h3>} */}
       <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
         <input type="text" placeholder='username' id='username' name='username' value={formData.username} onChange={handleChange} className='bg-slate-200 p-3 rounded-lg focus:outline-none' />
         <input type="email" placeholder='email' id='email' name='email' value={formData.email} onChange={handleChange} className='bg-slate-200 p-3 rounded-lg focus:outline-none' />

@@ -10,7 +10,7 @@ export const updateUser=async(req,res,next)=>{
 console.log(res.locals)
 console.log(res.locals.jwtData)
     if(res.locals.jwtData.id !== req.params.id){
-        return res.status(401).json({message:"You can update only your account!"})
+        return res.status(401).json({success:false,message:"You can update only your account!"})
     }
     try {
     
@@ -31,12 +31,10 @@ if(req.body.password){
        );
     //    const {password, ...rest}=updatedUser._doc;
     //    res.status(200).json(rest);
-    res.status(200).json({ message: "ok user updated", username: updatedUser.username, email: updatedUser.email,id:updatedUser._id,photo:updatedUser.photo})
+    res.status(200).json({success:true, message: "ok user updated", username: updatedUser.username, email: updatedUser.email,id:updatedUser._id,photo:updatedUser.photo})
     } catch (error) {
         console.log(error)
-        return res.status(400).json({
-            message:"error",cause:error.message
-        })
+       next(error)
     }
 }
 
@@ -46,12 +44,12 @@ if(req.body.password){
 
 export const deleteUser=async(req,res,next)=>{
     if(res.locals.jwtData.id !== req.params.id){
-        return res.status(401).json({message:"You can delete only your account!"})
+        return res.status(401).json({success:false,message:"You can delete only your account!"})
     }
 
     try {
         await User.findByIdAndDelete(req.params.id);
-        res.status(200).json({message:"User has been deleted..."})
+        res.status(200).json({success:true,message:"User has been deleted..."})
     } catch (error) {
         next(error)
         
