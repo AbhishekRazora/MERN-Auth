@@ -32,7 +32,8 @@ export const signUp = async (req, res, next) => {
 
         res.clearCookie(COOKIE_NAME, {
             path: "/",
-            domain: "localhost",
+            // domain: "localhost",
+            domain: "https://mern-auth-q7id.onrender.com",
             httpOnly: true,
             signed: true,
         })
@@ -43,7 +44,8 @@ export const signUp = async (req, res, next) => {
 
         res.cookie(COOKIE_NAME, token, {
             path: '/',
-            domain: "localhost",
+            // domain: "localhost",
+            domain: "https://mern-auth-q7id.onrender.com",
             expires,
             httpOnly: true,
             signed: true,
@@ -84,7 +86,8 @@ export const signIn = async (req, res, next) => {
 
         res.clearCookie(COOKIE_NAME, {
             path: "/",
-            domain: "localhost",
+            // domain: "localhost",
+            domain: "https://mern-auth-q7id.onrender.com",
             httpOnly: true,
             signed: true,
         })
@@ -95,7 +98,8 @@ export const signIn = async (req, res, next) => {
 
         res.cookie(COOKIE_NAME, token, {
             path: '/',
-            domain: "localhost",
+            // domain: "localhost",
+            domain: "https://mern-auth-q7id.onrender.com",
             expires,
             httpOnly: true,
             signed: true,
@@ -124,7 +128,8 @@ export const signWithGoogle = async (req, res, next) => {
         if (user) {
             res.clearCookie(COOKIE_NAME, {
                 path: "/",
-                domain: "localhost",
+                // domain: "localhost",
+                domain: "https://mern-auth-q7id.onrender.com",
                 httpOnly: true,
                 signed: true,
             })
@@ -135,7 +140,8 @@ export const signWithGoogle = async (req, res, next) => {
 
             res.cookie(COOKIE_NAME, token, {
                 path: '/',
-                domain: "localhost",
+                // domain: "localhost",
+                domain: "https://mern-auth-q7id.onrender.com",
                 expires,
                 httpOnly: true,
                 signed: true,
@@ -156,7 +162,8 @@ export const signWithGoogle = async (req, res, next) => {
 
             res.clearCookie(COOKIE_NAME, {
                 path: "/",
-                domain: "localhost",
+                // domain: "localhost",
+                domain: "https://mern-auth-q7id.onrender.com",
                 httpOnly: true,
                 signed: true,
             })
@@ -167,7 +174,8 @@ export const signWithGoogle = async (req, res, next) => {
 
             res.cookie(COOKIE_NAME, token, {
                 path: '/',
-                domain: "localhost",
+                // domain: "localhost",
+                domain: "https://mern-auth-q7id.onrender.com",
                 expires,
                 httpOnly: true,
                 signed: true,
@@ -207,7 +215,8 @@ export const signOut=async(req,res,next)=>{
         }
         res.clearCookie(COOKIE_NAME, {
             path: "/",
-            domain: "localhost",
+            domain: "https://mern-auth-q7id.onrender.com",
+            // domain: "localhost",
             httpOnly: true,
             signed: true,
         })
