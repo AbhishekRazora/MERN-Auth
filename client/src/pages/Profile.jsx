@@ -162,7 +162,7 @@ export default function Profile() {
 
         <input type="file" name="photo" id="" ref={fileRef} hidden accept='image/*' onChange={(e) => setImage(e.target.files[0])} />
         <img src={formData.photo || currentUser.photo} alt="profile" onClick={() => fileRef.current.click()} className='h-24 w-24 self-center cursor-pointer rounded-full object-cover mt-2' />
-
+          <p className='self-center font-semibold text-blue-700'>Click above on placeholder to change your profile photo</p>
         <p className='text-lg self-center'>
           {
             imageError ? (
